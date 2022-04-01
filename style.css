@@ -1,0 +1,92 @@
+:root {
+    --text1Color: rgb(53, 52, 52);
+    --mainBgColor: #E0D9D2;
+    --accent1: #9EB371;
+    --accent2: #E17878;
+}
+
+html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    background-color: var(--mainBgColor);
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--accent1);
+
+    padding: 20px;
+    margin-left: -8px;
+    margin-right: -8px;
+    margin-top: -8px;
+
+    border-bottom: 8px solid var(--text1Color);
+}
+
+h1 {
+    color: var(--text1Color);
+    text-align: center;
+}
+
+h2 {
+    float: right;
+    
+    margin-top: -83px;
+    margin-right: 30px;
+    padding: 16px;
+
+    border: 8px solid var(--text1Color);
+    border-radius: 36px;
+
+    color: var(--text1Color);
+
+    background-color: var(--accent2);
+}
+
+#gameContainer {
+    display: flex;
+    justify-content: center;
+    
+    margin-top: 20%;
+}
+
+button {
+    background-color: var(--accent1);
+    color: var(--text1Color);
+
+    padding: 8px;
+
+    border: 6px solid var(--text1Color);
+    border-radius: 12px;
+
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+ul {
+    display: none;
+}
+
+footer {
+    padding: 20px;
+    margin-left: -8px;
+    margin-right: -8px;
+    margin-bottom: -8px;
+    margin-top: auto;
+
+    background-color: var(--accent1);
+
+    display: flex;
+    justify-content: center;
+
+    border-top: 8px solid var(--text1Color);
+}
+
+h3 {
+    color: var(--text1Color);
+}

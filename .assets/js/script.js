@@ -31,6 +31,7 @@ function playGame() {
     //initialize hidden word for this game with selectWord function
     //this is an array with each letter from the word
     var hiddenWord = selectWord(wordArray);
+    var hiddenScore = hiddenWord.length;
 
 
 
@@ -46,7 +47,7 @@ function playGame() {
 function setTimer() {
     var timerEl = document.querySelector(".time");
 
-    var secondLeft = 30;
+    var secondsLeft = 30;
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timerEl.textContent = secondsLeft;
@@ -68,7 +69,27 @@ function checkKeydown(event){
 
     //check to see if this key that was pressed is
     //in our hidden word
+    if (hiddenWord.includes(keyPressed)) {
 
+        //if the hidden character is in the word then lets find it with a for loop
+        //this will also catch characters that appear multiple times
+        for (var i = 0; i < hiddenWord.length; i++) {
+
+            // this if statement checks if the character at this index was the keyPressed
+            // it also checks if this key has already been pressed by checking the data state
+            if(hiddenWord[i] === keyPressed && listEl.children[i].getAttribute("data-state") === "hidden") {
+                
+                //set the attribute for the li item to be visible
+                listEl.children[i].setAttribute("data-state", "visible");
+
+                //set the textContent of the li element to the character
+                listEl.children[i].textContent = hiddenWord[i];
+
+                //increase the score so we can know if the player has won
+                hiddenScore++;
+            }
+        }
+    }
 };
 
 //this function will select a word for us
@@ -97,10 +118,6 @@ function displayHiddenWord(charArray) {
 
         // set the data state to hidden so it can be changed later
         liArray[i].setAttribute("data-state", "hidden");
-
-        //set the data character attribute to the character at this index
-        //in the character array
-        liArray[i].setAttribute("data-character", charArray[i]);
 
         // set the textContent to "_" upon initialization
         liArray[i].textContent = "_";

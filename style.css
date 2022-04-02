@@ -3,6 +3,7 @@
     --mainBgColor: #E0D9D2;
     --accent1: #9EB371;
     --accent2: #E17878;
+    --borderStyling: 8px solid var(--text1Color);
 }
 
 html {
@@ -25,7 +26,7 @@ header {
     margin-right: -8px;
     margin-top: -8px;
 
-    border-bottom: 8px solid var(--text1Color);
+    border-bottom: var(--borderStyling);
 }
 
 h1 {
@@ -40,7 +41,7 @@ h2 {
     margin-right: 30px;
     padding: 16px;
 
-    border: 8px solid var(--text1Color);
+    border: var(--borderStyling);
     border-radius: 36px;
 
     color: var(--text1Color);
@@ -61,7 +62,7 @@ button {
 
     padding: 8px;
 
-    border: 6px solid var(--text1Color);
+    border: var(--borderStyling);
     border-radius: 12px;
 
     font-weight: bolder;
@@ -70,6 +71,7 @@ button {
 
 ul {
     display: none;
+    justify-content: space-between;
 }
 
 footer {
@@ -84,7 +86,7 @@ footer {
     display: flex;
     justify-content: center;
 
-    border-top: 8px solid var(--text1Color);
+    border-top: var(--borderStyling);
 }
 
 h3 {

@@ -15,8 +15,11 @@
 // the play button object/element in the index.html
 var playBtn = document.querySelector("#play");
 
-var wordArray = ["elephant", "library", "zebra", "chaos", "javascript", "funny"];
+// initialize word array for our set of words to guess
+var wordArray = ["elephant", "library", "zebra", "chaos", "javascript", "funny"];    
 
+// initialize the list element to display underscores or characters
+var listEl = document.querySelector("#letterList");
 
 // make button eventlistener ("click", func that starts game and timer)
 playBtn.addEventListener("click", playGame); 
@@ -25,7 +28,12 @@ playBtn.addEventListener("click", playGame);
 function playGame() {
     //      timer function
     setTimer();
-    selectWord(wordArray);
+    //initialize hidden word for this game with selectWord function
+    //this is an array with each letter from the word
+    var hiddenWord = selectWord(wordArray);
+
+
+
     //      eventlistener ? (keydown) function - check if letter shows
     document.addEventListener("keydown", checkKeydown);
     //      if ( checks timer === all shown) Win
@@ -33,7 +41,7 @@ function playGame() {
     //      local storage wins
 
     //      local storage losses
-}
+};
 
 function setTimer() {
     var timerEl = document.querySelector(".time");
@@ -51,7 +59,7 @@ function setTimer() {
         }
 
     }, 1000);
-}
+};
 
 function checkKeydown(event){
     // initialize variable keyPressed to the key that the user
@@ -61,11 +69,40 @@ function checkKeydown(event){
     //check to see if this key that was pressed is
     //in our hidden word
 
-}
+};
 
 //this function will select a word for us
 //it will also return that word as an array
 //with that word's characters at each index
 function selectWord(words) {
     return words[Math.floor(Math.random() * words.length)].split('');
-}
+};
+
+function displayHiddenWord(charArray) {
+
+    //set the display of listEl to flex
+    listEl.setAttribute("style", "display:flex;");
+
+    // initialize an array to hold li elements
+    var liArray = [];
+
+    // initialize li elements for the letters to be displayed on
+    for (var i = 0; i < charArray.length; i++) {
+
+        // initialize the first li element for the first letter
+        liArray[i] =  document.createElement("li");
+
+        // set the li element as a child of the ul element
+        listEl.appendChild(liArray[i]);
+
+        // set the data state to hidden so it can be changed later
+        liArray[i].setAttribute("data-state", "hidden");
+
+        //set the data character attribute to the character at this index
+        //in the character array
+        liArray[i].setAttribute("data-character", charArray[i]);
+
+        // set the textContent to "_" upon initialization
+        liArray[i].textContent = "_";
+    }
+};

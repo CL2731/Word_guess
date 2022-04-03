@@ -1,62 +1,83 @@
-// create a button 
-// have an event listener listen for click of button                    (11, 12)
-// after click we will start game - function
-// display hidden word                                                  (19, 20 of class)
-// add another event listener that listens for keydown
-// if keydown = any correct letter, then show letter                    (15, 16 referance)
-// add timer when game starts                                           (09, 10 from class for help)
-// user wins when all letters are displayed before time runs out
-// user loses if all letters are not displayed before time runs out
-//  us localstorage to keep track of wins & loses                       (20, 21 referance)
-
-// function to select word
-
 // here we have initialized a variable named playBtn which represents
 // the play button object/element in the index.html
 var playBtn = document.querySelector("#play");
 
-// initialize word array for our set of words to guess
-var wordArray = ["elephant", "library", "zebra", "chaos", "javascript", "funny"];    
+// initialize the variable referencing the h2 that shows the timer
+var timerEl = document.querySelector(".time");
 
-// initialize the list element to display underscores or characters
+// initialize the reference to the list element to display underscores or characters
 var listEl = document.querySelector("#letterList");
+
+// initialize word array for our set of words to guess
+var wordArray = ["elephant", "library", "zebra", "chaos", "javascript", "funny"]; 
+
+// initialize these variables here so we can access them across multiple functions
+var hiddenWord;
+var hiddenScore;
+var secondsLeft = 30;
+var timerInterval;
+
+//check to see if localstorage has a win/loss item
+//if not, make them, if so initialize them here
+var wins, losses = 0;
+if (localStorage.getItem("wins") === null) {
+    localStorage.setItem("wins", 0);
+} else {
+    wins = localStorage.getItem("wins");
+}
+if (localStorage.getItem("losses") === null) {
+    localStorage.setItem("losses", 0);
+} else {
+    losses = localStorage.getItem("losses");
+}
 
 // make button eventlistener ("click", func that starts game and timer)
 playBtn.addEventListener("click", playGame); 
 
 // Within function (game){
 function playGame() {
-    //      timer function
+    //set score to zero
+    hiddenScore = 0;
+
+    //set up the hiddenWord array by invoking selectWord function
+    //this function selects a word from an array of predetermined words
+    hiddenWord = selectWord(wordArray);
+
+    //pass the hiddenWord array into the displayHiddenWord function so
+    //we can create the li elements for each letter
+    displayHiddenWord(hiddenWord);
+
+    //set the display of the button to none to make room for the underscores
+    playBtn.setAttribute("style","display:none;");
+
+    //start timer function
     setTimer();
-    //initialize hidden word for this game with selectWord function
-    //this is an array with each letter from the word
-    var hiddenWord = selectWord(wordArray);
-    var hiddenScore = hiddenWord.length;
 
-
-
-    //      eventlistener ? (keydown) function - check if letter shows
+    //eventlistener (keydown) function - check if letter should show
     document.addEventListener("keydown", checkKeydown);
-    //      if ( checks timer === all shown) Win
 
-    //      local storage wins
-
-    //      local storage losses
 };
 
+//set timer function
 function setTimer() {
-    var timerEl = document.querySelector(".time");
+    
+    //set the max number of seconds
+    secondsLeft = 30;
 
-    var secondsLeft = 30;
-    var timerInterval = setInterval(function() {
+    //set up the timer interval to count down every 1000 milliseconds (1 second)
+    timerInterval = setInterval(function() {
+
+        //this is our timer variable, it will subtract one from itself at each interval
         secondsLeft--;
+
+        //every second we should set the text content of the timer element (h2), to the
+        //variable seconds left
         timerEl.textContent = secondsLeft;
 
+        //if the time is up
         if(secondsLeft === 0) {
-            clearInterval(timerInterval);
-            //player loses here? 
-            //we have to come back to this
-            //lose function?
+            //invoke the losegame function
+            loseGame();
         }
 
     }, 1000);
@@ -78,17 +99,23 @@ function checkKeydown(event){
             // this if statement checks if the character at this index was the keyPressed
             // it also checks if this key has already been pressed by checking the data state
             if(hiddenWord[i] === keyPressed && listEl.children[i].getAttribute("data-state") === "hidden") {
-                
-                //set the attribute for the li item to be visible
-                listEl.children[i].setAttribute("data-state", "visible");
-
+     
                 //set the textContent of the li element to the character
                 listEl.children[i].textContent = hiddenWord[i];
+
+                //set the attribute for the li item to be visible
+                listEl.children[i].setAttribute("data-state", "visible");
 
                 //increase the score so we can know if the player has won
                 hiddenScore++;
             }
         }
+    }
+
+    //at the end of every key press we check to see if the player won
+    if (hiddenScore === hiddenWord.length) {
+        //invoke the win game function!!
+        winGame();
     }
 };
 
@@ -99,6 +126,8 @@ function selectWord(words) {
     return words[Math.floor(Math.random() * words.length)].split('');
 };
 
+
+//this function creates li elements for our word and other important related attributes
 function displayHiddenWord(charArray) {
 
     //set the display of listEl to flex
@@ -123,3 +152,65 @@ function displayHiddenWord(charArray) {
         liArray[i].textContent = "_";
     }
 };
+
+// when the user wins, call this function
+function winGame() {
+
+    //increment the win count
+    wins++;
+
+    //store the number of wins to the local storage
+    localStorage.setItem("wins", wins);
+
+    //prevent the alert from bypassing other functions
+    setTimeout(function() {
+        alert("Good job, you won!\nYou have won " + wins + " times!\n You have lost " + losses + " times.");
+
+        //clean the game board by calling this function
+        cleanBoard(hiddenWord);
+
+    }, 10);
+    
+};
+
+//when the user loses, call this function
+function loseGame() {
+
+    //increment the loss counter
+    losses++;
+
+    //store the loss count to the local storage
+    localStorage.setItem("losses", losses);
+
+    //prevent the alert from bypassing other functions
+    setTimeout(function() {
+        alert("Times up!! You lost.\nThe word was: " + hiddenWord.join('')+ ".\nYou have won " + wins + " times!\n You have lost " + losses + " times.");
+
+        //clean the game board by calling this function
+        cleanBoard(hiddenWord);
+    
+    }, 10);
+    
+};
+
+//this function resets the game board essentially
+function cleanBoard(arr) {
+
+    //this for loop removes all the children elements of listEl by removing them from the
+    //end to the front
+    for (var i = arr.length - 1; i >= 0; i--) {
+        listEl.children[i].remove();
+    } 
+
+    //reset the timer variable
+    secondsLeft = 30;
+
+    //update the textContent on the h2
+    timerEl.textContent = secondsLeft;
+
+    //stop the timer interval
+    clearInterval(timerInterval);
+
+    //bring the play button back into the view/html
+    playBtn.setAttribute("style","display:inline;");
+}

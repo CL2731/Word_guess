@@ -45,15 +45,16 @@ h2 {
     border-radius: 36px;
 
     color: var(--text1Color);
+    text-align: center;
 
     background-color: var(--accent2);
 }
 
 #gameContainer {
-    display: flex;
-    justify-content: center;
+    display: block;
+
+    margin: auto;
     
-    margin-top: 20%;
 }
 
 button {
@@ -72,14 +73,25 @@ button {
 ul {
     display: none;
     justify-content: space-between;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
+
+li {
+    font-size: xx-large;
+    font-weight: bold;
+    padding: 32px;
+    text-decoration: underline;
+}
+
 
 footer {
     padding: 20px;
     margin-left: -8px;
     margin-right: -8px;
     margin-bottom: -8px;
-    margin-top: auto;
 
     background-color: var(--accent1);
 
@@ -91,4 +103,21 @@ footer {
 
 h3 {
     color: var(--text1Color);
+    text-align: center;
+}
+
+@media screen and (max-width:782px) {
+    li {
+        padding: 8px;
+    }
+
+    h1 {
+        float: left;
+        margin-left: 0px;
+    }
+
+    h2 {
+        margin-top: 0px;
+        margin-right: 0px;
+    }
 }

@@ -3,6 +3,7 @@
     --mainBgColor: #E0D9D2;
     --accent1: #9EB371;
     --accent2: #E17878;
+    --borderStyling: 8px solid var(--text1Color);
 }
 
 html {
@@ -25,7 +26,7 @@ header {
     margin-right: -8px;
     margin-top: -8px;
 
-    border-bottom: 8px solid var(--text1Color);
+    border-bottom: var(--borderStyling);
 }
 
 h1 {
@@ -40,19 +41,20 @@ h2 {
     margin-right: 30px;
     padding: 16px;
 
-    border: 8px solid var(--text1Color);
+    border: var(--borderStyling);
     border-radius: 36px;
 
     color: var(--text1Color);
+    text-align: center;
 
     background-color: var(--accent2);
 }
 
 #gameContainer {
-    display: flex;
-    justify-content: center;
+    display: block;
+
+    margin: auto;
     
-    margin-top: 20%;
 }
 
 button {
@@ -61,7 +63,7 @@ button {
 
     padding: 8px;
 
-    border: 6px solid var(--text1Color);
+    border: var(--borderStyling);
     border-radius: 12px;
 
     font-weight: bolder;
@@ -70,23 +72,52 @@ button {
 
 ul {
     display: none;
+    justify-content: space-between;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
+
+li {
+    font-size: xx-large;
+    font-weight: bold;
+    padding: 32px;
+    text-decoration: underline;
+}
+
 
 footer {
     padding: 20px;
     margin-left: -8px;
     margin-right: -8px;
     margin-bottom: -8px;
-    margin-top: auto;
 
     background-color: var(--accent1);
 
     display: flex;
     justify-content: center;
 
-    border-top: 8px solid var(--text1Color);
+    border-top: var(--borderStyling);
 }
 
 h3 {
     color: var(--text1Color);
+    text-align: center;
+}
+
+@media screen and (max-width:782px) {
+    li {
+        padding: 8px;
+    }
+
+    h1 {
+        float: left;
+        margin-left: 0px;
+    }
+
+    h2 {
+        margin-top: 0px;
+        margin-right: 0px;
+    }
 }
